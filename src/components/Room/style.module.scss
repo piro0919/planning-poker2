@@ -1,0 +1,34 @@
+.wrapper {
+  display: grid;
+  grid-template: auto 1fr / 1fr;
+  height: 100dvh;
+}
+
+.controlBlock {
+  box-shadow: 0 0 4px #3c4043;
+  display: grid;
+}
+
+.controlInner,
+.main {
+  justify-self: center;
+  max-width: 1280px;
+  padding-left: 24px;
+  padding-right: 24px;
+  width: 100%;
+}
+
+.controlInner {
+  padding-bottom: 12px;
+  padding-top: 12px;
+}
+
+.main {
+  display: grid;
+  grid-template: 1fr 15dvh / 1fr;
+}
+
+.boardBlock {
+  display: grid;
+  padding: 24px 0;
+}

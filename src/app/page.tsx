@@ -1,91 +1,46 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import styles from './page.module.css'
+"use client";
+import axios, { AxiosResponse } from "axios";
+import copy from "copy-to-clipboard";
+import dayjs from "dayjs";
+import { useRouter } from "next/navigation";
+import { useCallback } from "react";
+import toast from "react-hot-toast";
+import { useSessionStorage } from "usehooks-ts";
+import { PostRoomsBody, PostRoomsData } from "./api/rooms/route";
+import Home, { HomeProps } from "@/components/Home";
 
-const inter = Inter({ subsets: ['latin'] })
+export default function Page(): JSX.Element {
+  const router = useRouter();
+  const [_, setIsAdmin] = useSessionStorage("is-admin", "");
+  const handleCreate = useCallback<HomeProps["onCreate"]>(async () => {
+    setIsAdmin("true");
 
-export default function Home() {
-  return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+    const myPromise = axios.post<
+      PostRoomsData,
+      AxiosResponse<PostRoomsData>,
+      PostRoomsBody
+    >("/api/rooms", {
+      adminId: "",
+      createdDate: dayjs().format(),
+      status: "reserve",
+    });
+    const {
+      data: { id },
+    } = await toast.promise(myPromise, {
+      error: "新しい部屋を作成に失敗しました…",
+      loading: "新しい部屋を作成中です…",
+      success: "新しい部屋を作成しました",
+    });
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-        <div className={styles.thirteen}>
-          <Image src="/thirteen.svg" alt="13" width={40} height={31} priority />
-        </div>
-      </div>
+    copy(`${window.location.origin}/rooms/${id}`);
 
-      <div className={styles.grid}>
-        <a
-          href="https://beta.nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
+    toast.success("部屋のURLをコピーしました");
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>Explore the Next.js 13 playground.</p>
-        </a>
+    router.push(`/rooms/${id}`);
+  }, [router, setIsAdmin]);
+  const handleSubmit: HomeProps["onSubmit"] = ({ roomId }) => {
+    router.push(`/rooms/${roomId.split("/").at(-1) || ""}`);
+  };
 
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+  return <Home onCreate={handleCreate} onSubmit={handleSubmit} />;
 }

@@ -1,0 +1,48 @@
+.wrapper {
+  align-items: center;
+  display: flex;
+  gap: 12px;
+}
+
+.button {
+  background: #1a73e8;
+  border-radius: 4px;
+  color: #fff;
+  height: 36px;
+  padding: 0 12px;
+  transition: 120ms;
+}
+
+.button:disabled {
+  opacity: 0.25;
+}
+
+.reserveLabel,
+.startLabel,
+.waitLabel {
+  align-items: center;
+  display: flex;
+  gap: 6px;
+}
+
+.reserveLabel::before,
+.startLabel::before,
+.waitLabel::before {
+  border-radius: 50%;
+  content: "";
+  display: block;
+  height: 12px;
+  width: 12px;
+}
+
+.reserveLabel::before {
+  background: #ead665;
+}
+
+.startLabel::before {
+  background: #1a73e8;
+}
+
+.waitLabel::before {
+  background: #61d345;
+}

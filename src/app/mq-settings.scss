@@ -1,0 +1,11 @@
+@use "@/app/breakpoints" as *;
+
+@use "sass-mq" with (
+  $breakpoints: $breakpoints,
+  $show-breakpoints: (
+    mobile,
+    tablet,
+    desktop,
+    wide,
+  )
+);

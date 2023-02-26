@@ -1,0 +1,40 @@
+.wrapper {
+  background: #fff;
+  border-radius: 12px 12px 0 0;
+  box-shadow: 0 0 4px #3c4043;
+  padding: 12px 24px 0;
+}
+
+.inner {
+  height: 100%;
+  position: relative;
+}
+
+.card {
+  background: #fff;
+  border-left: 2px solid #3c4043;
+  border-radius: 12px 12px 0 0;
+  border-right: 2px solid #3c4043;
+  border-top: 2px solid #3c4043;
+  bottom: -24px;
+  /* stylelint-disable-next-line csstree/validator */
+  box-shadow: -4px 4px 4px rgba(#3c4043, 0.25);
+  cursor: pointer;
+  font-size: 2.4rem;
+  height: calc(100% + 24px);
+  left: 0;
+  padding: 12px;
+  position: absolute;
+  transform-origin: bottom;
+  transition: 120ms;
+}
+
+.card:hover,
+.selected {
+  margin-bottom: 24px;
+}
+
+.selected {
+  background: #61d345;
+  color: #fff;
+}
