@@ -26,7 +26,7 @@ export default function Room({
   users,
 }: RoomProps): JSX.Element {
   const isAdmin = useMemo<ControlProps["isAdmin"]>(
-    () => adminUserId === userId,
+    () => !!adminUserId && adminUserId === userId,
     [adminUserId, userId]
   );
 

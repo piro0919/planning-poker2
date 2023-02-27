@@ -100,11 +100,9 @@ export default function Control({
   return (
     <div className={styles.wrapper}>
       {adminButton}
-      <Spacer grow={1} />
-      {statusLabel}
       {isAdmin ? (
         <Menu
-          align="end"
+          align="start"
           arrow={true}
           menuButton={
             <MenuButton disabled={!menuItems.length}>
@@ -116,6 +114,8 @@ export default function Control({
           {menuItems}
         </Menu>
       ) : null}
+      <Spacer grow={1} />
+      {statusLabel}
       <button className={styles.button} disabled={disabled} onClick={onLeave}>
         退出する
       </button>

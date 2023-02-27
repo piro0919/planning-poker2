@@ -28,6 +28,7 @@
     "eslint-plugin-typescript-sort-keys": "2.1.0",
     "eslint-plugin-unused-imports": "2.0.0",
     "firebase": "9.17.1",
+    "firebase-tools": "11.24.0",
     "husky": "8.0.3",
     "lint-staged": "13.1.2",
     "next": "13.2.1",
