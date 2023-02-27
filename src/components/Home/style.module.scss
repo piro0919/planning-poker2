@@ -19,7 +19,8 @@
 }
 
 .heading1 {
-  font-size: 9.6rem;
+  /* stylelint-disable-next-line csstree/validator */
+  font-size: clamp(1rem, 10dvw, 9.6rem);
 }
 
 .buttonsWrapper {
@@ -36,6 +37,10 @@
   height: 48px;
   padding: 0 12px;
   // transition: 120ms;
+}
+
+/* stylelint-disable-next-line block-no-empty */
+.separator {
 }
 
 .existingBlock {

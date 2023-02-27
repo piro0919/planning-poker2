@@ -12,10 +12,10 @@
 .controlInner,
 .main {
   justify-self: center;
-  max-width: 1280px;
   padding-left: 24px;
   padding-right: 24px;
-  width: 100%;
+  /* stylelint-disable-next-line csstree/validator */
+  width: min(100%, 1280px);
 }
 
 .controlInner {

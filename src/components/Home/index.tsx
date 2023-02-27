@@ -34,7 +34,7 @@ export default function Home({ onCreate, onSubmit }: HomeProps): JSX.Element {
           <button className={styles.button} onClick={onCreate}>
             新しい部屋を作成
           </button>
-          <div>|</div>
+          <div className={styles.separator}>|</div>
           <form
             // eslint-disable-next-line @typescript-eslint/no-misused-promises
             onSubmit={handleSubmit(onSubmit)}
