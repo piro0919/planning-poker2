@@ -1,5 +1,6 @@
 import { MouseEventHandler, useMemo } from "react";
 import styles from "./style.module.scss";
+import useBreakpoint from "@/hooks/useBreakpoint";
 
 type Card = {
   onSelect: MouseEventHandler<HTMLDivElement>;
@@ -17,6 +18,14 @@ export default function Hand({
   selectedValue,
   status,
 }: HandProps): JSX.Element {
+  const { breakpoint } = useBreakpoint();
+  const cardWidth = useMemo(
+    () =>
+      breakpoint === "mobile" || breakpoint === "tablet"
+        ? "108px"
+        : `100% / ${cards.length - 4}`,
+    [breakpoint, cards.length]
+  );
   const items = useMemo(
     () =>
       cards.map(({ onSelect, value }, index, cards) => (
@@ -27,21 +36,23 @@ export default function Hand({
           key={value}
           onClick={status === "start" ? onSelect : undefined}
           style={{
-            left: `calc(100% / ${cards.length - 1} * ${index} - 100% / ${
-              cards.length - 4
-            } / ${cards.length - 1} * ${index})`,
-            width: `calc(100% / ${cards.length - 4})`,
+            left: `calc(100% / ${
+              cards.length - 1
+            } * ${index} - ${cardWidth} / ${cards.length - 1} * ${index})`,
+            width: `calc(${cardWidth})`,
           }}
         >
           {value}
         </div>
       )),
-    [cards, selectedValue, status]
+    [cardWidth, cards, selectedValue, status]
   );
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.inner}>{items}</div>
+      <div className={styles.scrollBlock}>
+        <div className={styles.inner}>{items}</div>
+      </div>
     </div>
   );
 }

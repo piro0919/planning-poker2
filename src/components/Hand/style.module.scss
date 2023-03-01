@@ -5,9 +5,22 @@
   padding: 12px 24px 0;
 }
 
+.scrollBlock {
+  height: calc(100% + 48px);
+  margin-top: -24px;
+  overflow: scroll hidden;
+}
+
 .inner {
   height: 100%;
+  margin-top: 24px;
   position: relative;
+  @include mq.mq($until: tablet) {
+    width: calc(100% + 108px * 4);
+  }
+  @include mq.mq($from: tablet, $until: desktop) {
+    width: calc(100% + 108px * 2);
+  }
 }
 
 .card {
@@ -20,13 +33,19 @@
   /* stylelint-disable-next-line csstree/validator */
   box-shadow: -4px 4px 4px rgba(#3c4043, 0.25);
   cursor: pointer;
-  font-size: 2.4rem;
   height: calc(100% + 24px);
   left: 0;
-  padding: 12px;
   position: absolute;
   transform-origin: bottom;
   transition: 120ms;
+  @include mq.mq($until: desktop) {
+    font-size: 2rem;
+    padding: 8px;
+  }
+  @include mq.mq($from: desktop) {
+    font-size: 2.4rem;
+    padding: 12px;
+  }
 }
 
 .card:hover,

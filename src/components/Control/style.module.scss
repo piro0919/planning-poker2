@@ -20,9 +20,16 @@
 .reserveLabel,
 .startLabel,
 .waitLabel {
-  align-items: center;
-  display: flex;
-  gap: 6px;
+  @include mq.mq($until: tablet) {
+    span {
+      display: none;
+    }
+  }
+  @include mq.mq($from: tablet) {
+    align-items: center;
+    display: flex;
+    gap: 6px;
+  }
 }
 
 .reserveLabel::before,

@@ -22,7 +22,7 @@ a {
 }
 
 button {
-  min-width: 48px;
+  min-width: 96px;
 }
 
 ol,
@@ -31,13 +31,14 @@ ul {
 }
 
 .swal2-popup {
-  scale: 1.5;
+  font-size: inherit !important;
 }
 
 .szh-menu-button {
   align-items: center;
   display: flex;
   justify-content: center;
+  min-width: 48px;
   transition: 120ms;
 }
 

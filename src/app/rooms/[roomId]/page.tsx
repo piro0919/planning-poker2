@@ -295,12 +295,20 @@ export default function Page({ params: { roomId } }: PageProps): JSX.Element {
   }, [roomId, status, userId]);
 
   useEffect(() => {
-    if (status !== "wait") {
+    if (!userId) {
       return;
     }
 
-    toast.success("公開しました");
-  }, [status]);
+    if (!isAdmin && status === "start") {
+      toast.success("開始しました");
+
+      return;
+    }
+
+    if (status === "wait") {
+      toast.success("公開しました");
+    }
+  }, [isAdmin, status, userId]);
 
   // eslint-disable-next-line @typescript-eslint/no-misused-promises
   useEventListener("beforeunload", async (e) => {

@@ -63,13 +63,25 @@ export default function Control({
   const statusLabel = useMemo(() => {
     switch (status) {
       case "reserve": {
-        return <div className={styles.reserveLabel}>待機中</div>;
+        return (
+          <div className={styles.reserveLabel}>
+            <span>待機中</span>
+          </div>
+        );
       }
       case "start": {
-        return <div className={styles.startLabel}>投票中</div>;
+        return (
+          <div className={styles.startLabel}>
+            <span>投票中</span>
+          </div>
+        );
       }
       case "wait": {
-        return <div className={styles.waitLabel}>公開中</div>;
+        return (
+          <div className={styles.waitLabel}>
+            <span>公開中</span>
+          </div>
+        );
       }
       default: {
         return null;
@@ -102,7 +114,7 @@ export default function Control({
       {adminButton}
       {isAdmin ? (
         <Menu
-          align="start"
+          align="center"
           arrow={true}
           menuButton={
             <MenuButton disabled={!menuItems.length}>
