@@ -1,5 +1,4 @@
-import { connectFirestoreEmulator, doc, updateDoc } from "firebase/firestore";
-import db from "@/libs/db";
+import adminDb from "@/libs/adminDb";
 
 type Params = {
   params: {
@@ -16,16 +15,9 @@ export async function PATCH(
   request: Request,
   { params: { roomId } }: Params
 ): Promise<Response> {
-  if (process.env.NODE_ENV === "development") {
-    try {
-      connectFirestoreEmulator(db, "localhost", 8080);
-    } catch {}
-  }
-
   const body = (await request.json()) as PatchRoomsRoomIdStatusBody;
-  const docRef = doc(db, "rooms", roomId);
 
-  await updateDoc(docRef, body);
+  await adminDb.collection("rooms").doc(roomId).update(body);
 
   return new Response();
 }

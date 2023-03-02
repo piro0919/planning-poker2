@@ -1,5 +1,4 @@
-import { connectFirestoreEmulator, deleteDoc, doc } from "firebase/firestore";
-import db from "@/libs/db";
+import adminDb from "@/libs/adminDb";
 
 type Params = {
   params: {
@@ -17,15 +16,12 @@ export async function DELETE(
   _: Request,
   { params: { roomId, userId } }: Params
 ): Promise<Response> {
-  if (process.env.NODE_ENV === "development") {
-    try {
-      connectFirestoreEmulator(db, "localhost", 8080);
-    } catch {}
-  }
-
-  const docRef = doc(db, "rooms", roomId, "users", userId);
-
-  await deleteDoc(docRef);
+  await adminDb
+    .collection("rooms")
+    .doc(roomId)
+    .collection("users")
+    .doc(userId)
+    .delete();
 
   return new Response();
 }
