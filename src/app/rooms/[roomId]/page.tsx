@@ -2,7 +2,12 @@
 import usePrevious from "@react-hook/previous";
 import axios, { AxiosResponse } from "axios";
 import dayjs from "dayjs";
-import { collection, doc } from "firebase/firestore";
+import {
+  CollectionReference,
+  DocumentReference,
+  collection,
+  doc,
+} from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
@@ -35,12 +40,7 @@ import {
 } from "@/app/api/rooms/[roomId]/users/route";
 import Room, { RoomProps } from "@/components/Room";
 import useFibonacci from "@/hooks/useFibonacci";
-import useQuerySnapshot, {
-  QuerySnapshotParams,
-} from "@/hooks/useQuerySnapshot";
-import useReferenceSnapshot, {
-  ReferenceSnapshotParams,
-} from "@/hooks/useReferenceSnapshot";
+import useOnSnapshot from "@/hooks/useOnSnapshot";
 import db from "@/libs/db";
 
 const MySwal = withReactContent(Swal);
@@ -78,9 +78,17 @@ export default function Page({ params: { roomId } }: PageProps): JSX.Element {
       status: "wait",
     });
   }, [roomId]);
-  const { data: usersData } = useQuerySnapshot<Firestore.User>({
-    query: collection(db, "rooms", roomId, "users"),
-  } as QuerySnapshotParams<Firestore.User>);
+  const { data: usersData } = useOnSnapshot<
+    CollectionReference,
+    Firestore.User
+  >({
+    query: collection(
+      db,
+      "rooms",
+      roomId,
+      "users"
+    ) as CollectionReference<Firestore.User>,
+  });
   const users = useMemo<RoomProps["users"]>(() => {
     let users: RoomProps["users"] = [];
 
@@ -115,10 +123,12 @@ export default function Page({ params: { roomId } }: PageProps): JSX.Element {
     return users;
   }, [roomId, usersData]);
   const prevUsers = usePrevious(users);
-  const { data: roomData, loading: roomLoading } =
-    useReferenceSnapshot<Firestore.Room>({
-      reference: doc(db, "rooms", roomId),
-    } as ReferenceSnapshotParams<Firestore.Room>);
+  const { data: roomData, loading: roomLoading } = useOnSnapshot<
+    DocumentReference,
+    Firestore.Room
+  >({
+    reference: doc(db, "rooms", roomId) as DocumentReference<Firestore.Room>,
+  });
   const adminUserId = useMemo<RoomProps["adminUserId"]>(() => {
     if (!roomData) {
       return "";
@@ -221,7 +231,7 @@ export default function Page({ params: { roomId } }: PageProps): JSX.Element {
         AxiosResponse<PostRoomsRoomIdUsersData>,
         PostRoomsRoomIdUsersBody
       >(`/api/rooms/${roomId}/users`, {
-        createdDate: dayjs().format(),
+        createdDate: dayjs().format("YYYY-MM-DD"),
         name: value,
         value: "",
       });

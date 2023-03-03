@@ -21,7 +21,7 @@ export default function Page(): JSX.Element {
       PostRoomsBody
     >("/api/rooms", {
       adminId: "",
-      createdDate: dayjs().format(),
+      createdDate: dayjs().format("YYYY-MM-DD"),
       status: "reserve",
     });
     const {
