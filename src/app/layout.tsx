@@ -28,27 +28,12 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <head>
-        <title>プランニングポーカー</title>
-        <meta content="width=device-width, initial-scale=1" name="viewport" />
-        <link href="/favicon.ico" rel="icon" />
-        <link
-          href="/apple-touch-icon.png"
-          rel="apple-touch-icon"
-          sizes="180x180"
+        <meta
+          content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
+          name="viewport"
         />
-        <link
-          href="/favicon-32x32.png"
-          rel="icon"
-          sizes="32x32"
-          type="image/png"
-        />
-        <link
-          href="/favicon-16x16.png"
-          rel="icon"
-          sizes="16x16"
-          type="image/png"
-        />
-        <link href="/site.webmanifest" rel="manifest" />
+        <link href="/manifest.json" rel="manifest" />
+        <link href="/logo192.png" rel="apple-touch-icon" />
       </head>
       <body className={mPLUSRounded1C.className}>
         <script />

@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import { useSessionStorage } from "usehooks-ts";
 import { PostRoomsBody, PostRoomsData } from "./api/rooms/route";
 import Home, { HomeProps } from "@/components/Home";
+import Seo from "@/components/Seo";
 
 export default function Page(): JSX.Element {
   const router = useRouter();
@@ -42,5 +43,10 @@ export default function Page(): JSX.Element {
     router.push(`/rooms/${roomId.split("/").at(-1) || ""}`);
   };
 
-  return <Home onCreate={handleCreate} onSubmit={handleSubmit} />;
+  return (
+    <>
+      <Seo type="website" />
+      <Home onCreate={handleCreate} onSubmit={handleSubmit} />
+    </>
+  );
 }

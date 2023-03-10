@@ -1,0 +1,29 @@
+{
+  "background_color": "#1a73e8",
+  "description": "オンライン版プランニングポーカーです。",
+  "display": "fullscreen",
+  "icons": [
+    {
+      "sizes": "64x64 32x32 24x24 16x16",
+      "src": "favicon.ico",
+      "type": "image/x-icon"
+    },
+    {
+      "sizes": "256x256",
+      "src": "logo256.png",
+      "type": "image/png"
+    },
+    {
+      "sizes": "512x512",
+      "src": "logo512.png",
+      "type": "image/png"
+    }
+  ],
+  "name": "プランニングポーカー",
+  "orientation": "portrait",
+  "screenshots": [],
+  "short_name": "プランニングポーカー",
+  "shortcuts": [],
+  "start_url": ".",
+  "theme_color": "#ffffff"
+}

@@ -3,24 +3,21 @@ import {
   DocumentData,
   DocumentReference,
   DocumentSnapshot,
+  Firestore,
   FirestoreError,
   QuerySnapshot,
+  collection,
+  doc,
   onSnapshot,
 } from "firebase/firestore";
 import { useState } from "react";
 import { useBoolean, useEffectOnce } from "usehooks-ts";
 
-export type QuerySnapshotParams<U = DocumentData> = {
-  query: CollectionReference<U>;
+export type OnSnapshotFirestoreParams = {
+  firestore: Firestore;
+  paths: string[];
+  type: "query" | "reference";
 };
-
-export type ReferenceSnapshotParams<U = DocumentData> = {
-  reference: DocumentReference<U>;
-};
-
-export type OnSnapshotParams<U = DocumentData> =
-  | QuerySnapshotParams<U>
-  | ReferenceSnapshotParams<U>;
 
 export type QuerySnapshotData<U = DocumentData> = {
   data?: QuerySnapshot<U>;
@@ -44,7 +41,7 @@ export type OnSnapshotData<
 export default function useOnSnapshot<
   T = CollectionReference | DocumentReference,
   U = DocumentData
->(params: OnSnapshotParams<U>): OnSnapshotData<T, U> {
+>({ firestore, paths, type }: OnSnapshotFirestoreParams): OnSnapshotData<T, U> {
   const [queryData, setQueryData] = useState<QuerySnapshotData<U>["data"]>();
   const [referenceData, setReferenceData] = useState<
     QuerySnapshotData<U> | ReferenceSnapshotData<U>["data"]
@@ -53,14 +50,15 @@ export default function useOnSnapshot<
   const [error, setError] = useState<OnSnapshotData<T, U>["error"]>();
 
   useEffectOnce(() => {
+    const [path, ...pathSegments] = paths;
     const unsubscribe =
-      "query" in params
-        ? onSnapshot<U>(
-            params.query,
+      type === "query"
+        ? onSnapshot(
+            collection(firestore, path, ...pathSegments),
             (snapshot) => {
               offLoading();
 
-              setQueryData(snapshot);
+              setQueryData(snapshot as QuerySnapshot<U>);
             },
             (error) => {
               offLoading();
@@ -68,12 +66,12 @@ export default function useOnSnapshot<
               setError(error);
             }
           )
-        : onSnapshot<U>(
-            params.reference,
+        : onSnapshot(
+            doc(firestore, path, ...pathSegments),
             (snapshot) => {
               offLoading();
 
-              setReferenceData(snapshot);
+              setReferenceData(snapshot as DocumentSnapshot<U>);
             },
             (error) => {
               offLoading();
@@ -87,7 +85,7 @@ export default function useOnSnapshot<
     };
   });
 
-  return "query" in params
+  return type === "query"
     ? <OnSnapshotData<T, U>>{ error, loading, data: queryData }
     : <OnSnapshotData<T, U>>{ error, loading, data: referenceData };
 }

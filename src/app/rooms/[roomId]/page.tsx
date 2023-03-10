@@ -2,12 +2,7 @@
 import usePrevious from "@react-hook/previous";
 import axios, { AxiosResponse } from "axios";
 import dayjs from "dayjs";
-import {
-  CollectionReference,
-  DocumentReference,
-  collection,
-  doc,
-} from "firebase/firestore";
+import { CollectionReference, DocumentReference } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
@@ -39,7 +34,9 @@ import {
   PostRoomsRoomIdUsersData,
 } from "@/app/api/rooms/[roomId]/users/route";
 import Room, { RoomProps } from "@/components/Room";
+import Seo from "@/components/Seo";
 import useFibonacci from "@/hooks/useFibonacci";
+// import useOnSnapshot from "@/hooks/useOnSnapshot";
 import useOnSnapshot from "@/hooks/useOnSnapshot";
 import db from "@/libs/db";
 
@@ -82,12 +79,9 @@ export default function Page({ params: { roomId } }: PageProps): JSX.Element {
     CollectionReference,
     Firestore.User
   >({
-    query: collection(
-      db,
-      "rooms",
-      roomId,
-      "users"
-    ) as CollectionReference<Firestore.User>,
+    firestore: db,
+    paths: ["rooms", roomId, "users"],
+    type: "query",
   });
   const users = useMemo<RoomProps["users"]>(() => {
     let users: RoomProps["users"] = [];
@@ -127,7 +121,9 @@ export default function Page({ params: { roomId } }: PageProps): JSX.Element {
     DocumentReference,
     Firestore.Room
   >({
-    reference: doc(db, "rooms", roomId) as DocumentReference<Firestore.Room>,
+    firestore: db,
+    paths: ["rooms", roomId],
+    type: "reference",
   });
   const adminUserId = useMemo<RoomProps["adminUserId"]>(() => {
     if (!roomData) {
@@ -334,16 +330,19 @@ export default function Page({ params: { roomId } }: PageProps): JSX.Element {
   });
 
   return (
-    <Room
-      adminUserId={adminUserId}
-      cards={cards}
-      onLeave={handleLeave}
-      onStart={handleStart}
-      onStop={handleStop}
-      selectedValue={selectedValue}
-      status={status}
-      userId={userId}
-      users={users}
-    />
+    <>
+      <Seo nofollow={true} noindex={true} />
+      <Room
+        adminUserId={adminUserId}
+        cards={cards}
+        onLeave={handleLeave}
+        onStart={handleStart}
+        onStop={handleStop}
+        selectedValue={selectedValue}
+        status={status}
+        userId={userId}
+        users={users}
+      />
+    </>
   );
 }
