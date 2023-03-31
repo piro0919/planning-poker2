@@ -28,7 +28,7 @@
     "eslint-plugin-sort-keys-shorthand": "2.2.0",
     "eslint-plugin-typescript-sort-keys": "2.3.0",
     "eslint-plugin-unused-imports": "2.0.0",
-    "firebase": "9.19.0",
+    "firebase": "9.19.1",
     "firebase-admin": "11.5.0",
     "firebase-tools": "11.25.2",
     "husky": "8.0.3",
