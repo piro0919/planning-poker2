@@ -26,7 +26,7 @@
     "eslint-plugin-promise": "6.1.1",
     "eslint-plugin-sort-destructure-keys": "1.5.0",
     "eslint-plugin-sort-keys-shorthand": "2.2.0",
-    "eslint-plugin-typescript-sort-keys": "2.3.0",
+    "eslint-plugin-typescript-sort-keys": "3.3.0",
     "eslint-plugin-unused-imports": "2.0.0",
     "firebase": "9.23.0",
     "firebase-admin": "11.11.1",
